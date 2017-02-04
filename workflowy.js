@@ -1,16 +1,20 @@
 // ==UserScript==
-// @name         New Userscript
+// @name         New ES6-Userscript
 // @namespace    http://tampermonkey.net/
 // @version      0.1
-// @description  Add workflowy styles
+// @description  shows how to use babel compiler
 // @author       You
+// @require      https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.18.2/babel.js
+// @require      https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.16.0/polyfill.js
 // @match        http://workflowy.com/*
-// @grant        none
 // ==/UserScript==
 
-(function() {
-    'use strict';
-    
+/* jshint ignore:start */
+var inline_src = (<><![CDATA[
+/* jshint ignore:end */
+    /* jshint esnext: false */
+    /* jshint esversion: 6 */
+
     function addGlobalStyle(css) {
         var head, style;
         head = document.getElementsByTagName('head')[0];
@@ -26,4 +30,9 @@
             background-color: beige;
         }
     `);
-})();
+/* jshint ignore:start */
+]]></>).toString();
+var c = Babel.transform(inline_src, { presets: [ "es2015", "es2016" ] });
+eval(c.code);
+/* jshint ignore:end */
+
