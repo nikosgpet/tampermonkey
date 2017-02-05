@@ -1,0 +1,153 @@
+/* Add some padding to tag box */
+.contentTag {
+  padding: 0px 4px !important;
+/*     background-color: #eeeeee; */
+  color: #757575 !important;
+}
+
+/* Change completed style */
+.project.done > .name {
+  color: 0.6;
+}
+.project.done > .name > .content, .project.doneAppearance > .name > .content {
+  text-decoration: none;
+  color: RGBA(153, 153, 153, 0.6);
+  filter: grayscale(100%);
+}
+
+/* Create tags */
+.contentTag[title$="ref"], 
+.contentTag[title$="#ex"], 
+.contentTag[title$="metaphor"], 
+.contentTag[title$="comment"], 
+.contentTag[title$="task"], 
+.contentTag[title$="pro"], 
+.contentTag[title$="#plugin"], 	
+.contentTag[title$="#page"], 
+.contentTag[title$="#aim"], 
+.contentTag[title$="#text"], 
+.contentTag[title$="#book"], 
+.contentTag[title$="#cook"], 
+.contentTag[title$="#drive"]  {
+  color: transparent !important;  /* Makes all text transparent, especially the dash # */
+  opacity: .8;                    /* Makes it a little transparent */
+}
+
+.contentTag[title$="ref"] > .contentTagText, 
+.contentTag[title$="#ex"] > .contentTagText, 
+.contentTag[title$="metaphor"] > .contentTagText, 
+.contentTag[title$="comment"] > .contentTagText, 
+.contentTag[title$="task"] > .contentTagText, 
+.contentTag[title$="pro"] > .contentTagText, 
+.contentTag[title$="#plugin"] > .contentTagText, 
+.contentTag[title$="#page"] > .contentTagText, 
+.contentTag[title$="#aim"] > .contentTagText, 
+.contentTag[title$="#text"] > .contentTagText, 
+.contentTag[title$="#book"] > .contentTagText, 
+.contentTag[title$="#cook"] > .contentTagText, 
+.contentTag[title$="#drive"] > .contentTagText {
+  color: #fff;                    /* Makes text white (not the dash #) */
+  margin: 0px 0px 0px -0.5em;     /* Moves text to the left, covering the dash # */
+}
+
+/* Rules for #pro tags */
+.contentTag[title$="proh"], 
+.contentTag[title$="prod"], 
+.contentTag[title$="prow"], 
+.contentTag[title$="prom"]  {
+  color: transparent !important;  /* Makes all text transparent, especially the dash # */
+  opacity: .8;                    /* Makes it a little transparent */
+  padding-right: 0px !important; 
+}
+
+.contentTag[title$="proh"] > .contentTagText, 
+.contentTag[title$="prod"] > .contentTagText, 
+.contentTag[title$="prow"] > .contentTagText, 
+.contentTag[title$="prom"] > .contentTagText {
+  display: inline-block;          /* Make text work like a block, so that we can give it a width */
+  width: 1.5em;                   /* Give width so that last letter is overflowed */
+  white-space: nowrap;            /* Last letter won't move to new line */
+  overflow: hidden;               /* Hides last letter because it cant fit in the box */
+  vertical-align: bottom;         /* Moves text back to the position it had before overflow hidden */
+  color: #fff;                    /* Makes text white (not the dash #) */
+  margin: 0px 0px 0px -0.5em;     /* Moves text to the left, covering the dash # */
+  text-overflow: '';
+}
+
+.contentTag[title$="proh"]::after, 
+.contentTag[title$="prod"]::after, 
+.contentTag[title$="prow"]::after, 
+.contentTag[title$="prom"]::after {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  margin-left: 4px;
+  padding: 0 4px;
+  color: #fff;
+} 
+
+.contentTag[title$="proh"]::after {
+  background-color: #2e7d32;
+  content: "h";
+} 
+.contentTag[title$="prod"]::after {
+  background-color: #1b5e20;
+  content: "d";
+} 
+.contentTag[title$="prow"]::after {
+  background-color: #0080C8;
+  content: "w";
+} 
+.contentTag[title$="prom"]::after {
+  background-color: #0d47a1;
+  content: "m";
+} 
+
+.contentTag[title$="proh"] {
+  background-color: #66bb6a !important;
+}
+.contentTag[title$="prod"] {
+  background-color: #43a047 !important;
+}
+.contentTag[title$="prow"] {
+  background-color: #42a5f5 !important;
+}
+.contentTag[title$="prom"] {
+  background-color: #0080C8;
+}
+
+/* Other tags */
+
+
+/* Light Blue */
+.contentTag[title$="#text"] {
+  background-color: #42a5f5;
+}
+/* Blue */
+.contentTag[title$="#ex"], .contentTag[title*="metaphor"], .contentTag[title*="pro"], .contentTag[title*="plugin"], .contentTag[title*="aim"], .contentTag[title*="cook"], .contentTag[title*="drive"] {
+  background-color: #0080C8;
+}
+/* Green */
+.contentTag[title*="ref"], .contentTag[title*="book"] {
+  background-color: #00b930;
+/*     color: #00b930 !important; */
+}
+.contentTag[title*="comment"] {
+  background-color: #00b930;
+}  
+.contentTag[title*="task"], .contentTag[title*="page"] {
+  background-color: #00b930;
+}  
+/* Grey out */
+.contentTag[title*="ref_"], .contentTag[title*="book_"], .contentTag[title*="pro_"], .contentTag[title*="rcp_"], .contentTag[title*="aim_"], .contentTag[title*="cook_"] {
+  background-color: #fff;
+  color: #00b930 !important;
+  opacity: .2;
+}
+
+
+
+/* Nice orange #FF6600 */
+/* Remove underline from tags */
+.contentTag > .contentTagText{
+  text-decoration: none !important;
+}
