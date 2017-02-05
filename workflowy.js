@@ -11,7 +11,7 @@ function addCssFile(file, id) {
     console.log(link);
     console.log(head);
 }
-addCssFile('https://raw.githubusercontent.com/nikosgpet/tampermonkey/master/tags.workflowy.css', 'tags_css');
+addCssFile('https://rawgit.com/nikosgpet/tampermonkey/master/tags.workflowy.css', 'tags_css');
 
 function addGlobalStyle(css) {
     var head, style;
