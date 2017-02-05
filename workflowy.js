@@ -24,6 +24,6 @@ function addGlobalStyle(css) {
 
 addGlobalStyle(`
     #pageContainer {
-        background-color: green;
+        background-color: blue;
     }
 `);
