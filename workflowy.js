@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         New ES6-Userscript
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  shows how to use babel compiler
 // @author       You
 // @require      https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.18.2/babel.js
@@ -27,7 +27,7 @@ var inline_src = (<><![CDATA[
     
     addGlobalStyle(`
         #pageContainer {
-            background-color: blue;
+            background-color: beige;
         }
     `);
 /* jshint ignore:start */
