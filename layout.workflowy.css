@@ -1,0 +1,161 @@
+/* ------------  Workflowy layout  ------------ */
+
+
+  /* make whole page white */
+  body {
+    background-color: #ffffff;
+  }
+  
+  /* Hide border */
+  .page {
+    border: none;
+  }
+  
+   /* hide bullet */
+
+.bullet, #bulletBucket .bulletBucketBullet {
+  background-image: none;
+  background-color: #ededed;
+}
+  
+  
+/* color: shared bullets */
+
+.project.shared > .name > .bullet {
+  background-color: rgba(255, 185, 95, 1);
+}
+.project.shared.open > .name > a.bullet {
+  background: rgba(255, 185, 95, .5);
+}
+.project.shared > .name > .bullet:hover, .project.shared > .name > .bullet.dragging {
+  background-color: rgba(245, 145, 17, 1);
+}
+.project.shared.open > .name > .bullet:hover, .project.shared.open > .name > .bullet.dragging {
+  background-color: rgba(245, 145, 17, 1);
+}
+
+.project.addedShared > .name > .bullet {
+  background-color: #ececec;
+  -webkit-box-shadow: 0px 0px 1px 1px rgba(178, 255, 95, 1);
+  -moz-box-shadow: 0px 0px 1px 1px rgba(178, 255, 95, 1);
+  box-shadow: 0px 0px 3px 2px rgba(255, 185, 95, 1);
+}
+.project.addedShared.open > .name > .bullet {
+  background-color: #fff;
+  -webkit-box-shadow: 0px 0px 1px 1px rgba(178, 255, 95, .5);
+  -moz-box-shadow: 0px 0px 1px 1px rgba(178, 255, 95, .5);
+  box-shadow: 0px 0px 3px 2px rgba(255, 185, 95, .5);
+}
+  
+  
+/* ----- Make whole page more minimalistic ------ */
+  
+ /* Breadcrumb Navigation content faded and opaque */
+.parent>.name>.content {
+  color: #E6E6E6;
+  opacity: .7;
+}
+.parent>.name>.parentArrow:before {
+  color: #E6E6E6;
+  opacity: .7;
+}
+  
+  /* logo image hidden for simplicity's sake */
+.pro_member #logo {
+  background-image: none;
+}
+
+/* Undo and redo buttons completely faded out */
+.undo-icon {
+  opacity: .0;
+}
+.redo-icon {
+  opacity: .0;
+}
+
+/* Button borders whited out */
+.saveButton, .showCompletedButton, #buttonBar, #helpButton {
+  border-bottom: 1px #FFFFFF;
+  border-left: 1px #FFFFFF;
+  border-right: 1px #FFFFFF;
+  }
+
+/* Search box background barely visible */
+#searchBox {
+  position: relative;
+  color: #000;
+  background-color: #E6E6E6;
+  opacity: .1;
+  border: 1px #FFFFFF;
+}
+  
+  /* "Show starred pages" button faded */
+#savedViewHUDButton {
+  opacity: .1;
+}
+
+/* "Star this page" button faded, get more space */
+.pageStar, .getMoreSpaceButton {
+  opacity: .1;
+}
+
+/* Menu button faded */
+.menu-icon {
+  opacity: .2;
+}
+
+ /* Site slogan (Make Lists. Not War,) and other links at the footer of the page faded */
+.siteSlogan {
+  color: #E6E6E6;
+}
+
+#bottomLinks a {
+  color: #E6E6E6;
+}
+  
+#nikos-button {
+  opacity: .0;
+}
+  
+/* Search result color */
+.content .contentMatch {
+  background-color: rgba(255,235,59, 0.1);
+}
+  
+ /* style header */
+
+#header {
+    padding: 0px 0;
+    background: #555;
+}
+
+#buttonBar {
+    margin-right: 1px;
+}
+
+.menu-button {
+    padding: 12px 10px 12px;
+}
+
+#searchBox, #savedViewHUDButton {
+    border-radius: 1px;
+    border-color: #444;
+    padding: 2px 8px;
+    font-size: 12px;
+}
+
+.saveButton, .showCompletedButton, #buttonBar, #helpButton {
+    opacity: .6;
+    font-size: 12px;
+} 
+  
+/* Page Size */
+  
+  .page {
+    display: block;
+    width: 800px !important;
+    margin-left: auto;
+    margin-right: auto; 
+    transform: none !important;
+    max-width: 1000px;
+}
