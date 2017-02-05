@@ -7,11 +7,10 @@ function addCssFile(file, id) {
     link.id   = id;
     link.media = 'all';
     head.appendChild(link);   
-    console.log('nikos');
-    console.log(link);
-    console.log(head);
 }
 addCssFile('https://rawgit.com/nikosgpet/tampermonkey/master/tags.workflowy.css', 'tags_css');
+addCssFile('https://rawgit.com/nikosgpet/tampermonkey/master/layout.workflowy.css', 'layout_css');
+addCssFile('https://rawgit.com/nikosgpet/tampermonkey/master/other.workflowy.css', 'other_css');
 
 function addGlobalStyle(css) {
     var head, style;
@@ -23,8 +22,3 @@ function addGlobalStyle(css) {
     head.appendChild(style);
 }
 
-addGlobalStyle(`
-    #pageContainer {
-        background-color: blue;
-    }
-`);
