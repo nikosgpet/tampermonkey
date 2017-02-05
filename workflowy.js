@@ -10,6 +10,6 @@ function addGlobalStyle(css) {
 
 addGlobalStyle(`
     #pageContainer {
-        background-color: beige;
+        background-color: green;
     }
 `);
