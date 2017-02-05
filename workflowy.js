@@ -27,7 +27,7 @@ var inline_src = (<><![CDATA[
     
     addGlobalStyle(`
         #pageContainer {
-            background-color: beige;
+            background-color: blue;
         }
     `);
 /* jshint ignore:start */
