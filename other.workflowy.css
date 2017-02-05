@@ -1,0 +1,88 @@
+/* -----------------  Better starred page viewer  ----------------- */
+
+/* Better Starred Page HUD */
+#savedViewHUD {
+	background-color: transparent !important;
+	bottom: 0px !important;
+	height: auto !important;
+	overflow-x: hidden !important;
+	overflow-y: auto !important;
+	padding-bottom: 12px !important;
+	padding-top: 12px !important;
+	top: 30px !important;
+	width: 375px !important;
+}
+
+#savedViewHUD::-webkit-scrollbar {
+	width: 10px !important;
+}
+
+#savedViewHUD::-webkit-scrollbar-thumb {
+	background-color: rgba(0,0,0,.2) !important;
+}
+
+#savedViewHUDPageContainer {
+	padding: 10px !important;
+}
+
+.savedViewPage {
+	display: block !important;
+	height: auto !important;
+	width: 310px !important;
+	margin-bottom: 3px !important;
+	padding: 10px !important;
+	}
+
+.savedViewPageFader {
+	display: none !important;
+}
+
+.savedViewPageSearchStringContainer {
+	margin-top: 0 !important;
+}
+
+/* -----------------  Fade out notes  ----------------- */
+
+@media screen {
+  .noted                 > .notes > .content,
+  /* The next two are for compatibility with my "Fade out completed items" style - this must be more specific */
+  .noted.done            > .notes > .content,
+  .noted.doneAppearance  > .notes > .content {
+    opacity: 0.4;
+  }
+  
+  .noted > .notes > .content:focus,
+  .noted > .notes > .content:hover {
+    opacity: 1;
+  }
+}
+
+/* -----------------  Show note summary  ----------------- */
+
+  .noted > .notes > .content {
+      height: auto;
+      line-height: 17px;
+      max-height: 102px;
+  }
+
+.selected > .notes > .content, .page.searching .notes.matches > .content {
+    overflow: hidden;
+}
+  
+.noted > .notes > .content:focus, .noted > .notes > .content.showAsEditing, .noted > .notes > .content.copyOrPasteInProgress, .noted > .notes > .content.focusedButWindowBlurred {
+    overflow: visible !important;
+    max-height: initial;
+}
+
+/* -----------------  Hide bullets  ----------------- */
+
+.bullet, #bulletBucket .bulletBucketBullet {
+  background-image: none;
+  background-color: #ededed;
+}
+
+  /* Show space between paragraphs */
+  .project {
+    margin-top: 8px;
+  }
+
