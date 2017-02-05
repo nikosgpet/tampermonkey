@@ -8,6 +8,7 @@ function addCssFile(file, id) {
     link.media = 'all';
     head.appendChild(link);   
     console.log('nikos');
+    console.log(link);
     console.log(head);
 }
 addCssFile('https://raw.githubusercontent.com/nikosgpet/tampermonkey/master/tags.workflowy.css', 'tags_css');
