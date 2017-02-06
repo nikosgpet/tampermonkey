@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         Copy button
 // @namespace    http://tampermonkey.net/
-// @version      0.4
+// @version      0.5
 // @description  try to take over the world!
 // @author       You
 // @require      https://raw.githubusercontent.com/nikosgpet/tampermonkey/master/workflowy.js
 // @match        https://*/*
+// @exclude      https://workflowy.com/*
 // @grant        none
 // @run-at       document-end
 // ==/UserScript==
