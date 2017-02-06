@@ -113,10 +113,6 @@
   color: #E6E6E6;
 }
   
-#nikos-button {
-  opacity: .0;
-}
-  
 /* Search result color */
 .content .contentMatch {
   background-color: rgba(255,235,59, 0.1);
