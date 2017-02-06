@@ -31,7 +31,7 @@
     var url = location.protocol + '//' + location.host + location.pathname;
     var text = '<opml><body><outline text=\'#ref ' + escapeHtml(document.title) + '\' _note=\'' + escapeHtml(location.href) + ' \'/></body></opml>';
 
-    var r='<input id="nikos-select" value="' + text + '"/><div id="nikos-button" class="peristeri nikos-button nikos-left"> Copy </div>';
+    var r='<input id="nikos-select" value="' + text + '"/><div id="nikos-button" class="aidoni nikos-button nikos-left"> Copy </div>';
     //$("body").append(r);
     document.body.insertAdjacentHTML('beforeend', r);
     //$('#nikos-select').val(text);
