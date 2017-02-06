@@ -1,18 +1,17 @@
 // ==UserScript==
 // @name         Copy button
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  try to take over the world!
 // @author       You
 // @require      https://raw.githubusercontent.com/nikosgpet/tampermonkey/master/workflowy.js
 // @match        https://*/*
 // @grant        none
+// @run-at       document-end
 // ==/UserScript==
 
 (function() {
     'use strict';
-
-    window.onload = function(){
 
     //alert('Button added');
     function escapeHtml(text) {
@@ -42,8 +41,6 @@
       e.preventDefault();
       document.execCommand('copy', false, document.getElementById('nikos-select').select());
     });
-
-    };
 
     function addGlobalStyle(css) {
         var head, style;
