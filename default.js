@@ -45,5 +45,63 @@
 
     };
 
+    function addGlobalStyle(css) {
+        var head, style;
+        head = document.getElementsByTagName('head')[0];
+        if (!head) { return; }
+        style = document.createElement('style');
+        style.type = 'text/css';
+        style.innerHTML = css;
+        head.appendChild(style);
+    }
+    
+    addGlobalStyle(`
+        .nikos-button {  
+            display: inline-block;
+            /*   position: relative; */
+            width: 60px;
+            height: 32px;
+            line-height: 32px;
+            border-radius: 2px;
+            font-size: 0.9em;
+            background-color: #eee;
+            color: #646464;
+            transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition-delay: 0.2s;
+            box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+
+            text-align: center;
+
+            cursor: default;
+            opacity: 0.5;
+            z-index: 1000;
+        }
+
+        .nikos-left {
+            position: fixed;
+            bottom: 20px;
+            left: 20px; 
+        }
+  
+        .nikos-right {
+            position: fixed;
+            bottom: 20px;
+            right: 20px; 
+        }
+
+        .nikos-button:active, .nikos-button:hover {
+            opacity: 1;
+        }
+
+        .nikos-button:active {
+            box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+            transition-delay: 0s;
+        }
+
+        #nikos-select {
+            position: fixed;
+            left: -1000px;
+        }
+    `);
 })();
 
