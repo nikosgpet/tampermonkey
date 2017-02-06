@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Workflowy scripts
+// @name         Copy button
 // @namespace    http://tampermonkey.net/
 // @version      0.2
 // @description  try to take over the world!
