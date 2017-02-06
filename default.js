@@ -26,12 +26,12 @@
       return text.replace(/[&<>"']/g, function(m) { return map[m]; });
     }
 
-    var url = location.protocol + '//' + location.host + location.pathname
+    var url = location.protocol + '//' + location.host + location.pathname;
     var text = '<opml><body><outline text=\'#ref ' + escapeHtml(document.title) + '\' _note=\'' + escapeHtml(location.href) + ' \'/></body></opml>';
 
     var r='<input id="nikos-select" value="' + text + '"/><div id="nikos-button" class="peristeri nikos-button nikos-left"> Copy </div>';
     //$("body").append(r);
-    document.body.insertAdjacentHTML('beforeend', r)
+    document.body.insertAdjacentHTML('beforeend', r);
     //$('#nikos-select').val(text);
     document.getElementById("nikos-select").value = text;
 
