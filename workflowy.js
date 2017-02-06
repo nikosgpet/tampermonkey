@@ -1,10 +1,9 @@
 // ==UserScript==
 // @name         Workflowy scripts
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  try to take over the world!
 // @author       You
-// @require      https://raw.githubusercontent.com/nikosgpet/tampermonkey/master/workflowy.js
 // @match        https://workflowy.com/*
 // @grant        none
 // ==/UserScript==
