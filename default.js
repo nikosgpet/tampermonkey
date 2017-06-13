@@ -9,6 +9,7 @@
 // @grant        none
 // @run-at       document-end
 // @noframes
+// @require      https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.6.1/mousetrap.min.js
 // ==/UserScript==
 
 (function() {
@@ -46,23 +47,51 @@
       return text.replace(/[&<>"']/g, function(m) { return map[m]; });
     }
 
-    // Tag in format #yymmdd_title
-    var date_tag = '#' + formatDate(new Date()) + '_' + document.title.split(' ')[0].toLowerCase();
-    var url = location.protocol + '//' + location.host + location.pathname;
-    var text = '<opml><body><outline text=\'#ref ' + escapeHtml(document.title) + ' ' + date_tag + '\' _note=\'' + escapeHtml(location.href) + ' \'/></body></opml>';
+    function addElementToCopy() {
+        function getSelectionText() {
+            var text = "";
+            if (window.getSelection) {
+                text = window.getSelection().toString();
+            } else if (document.selection && document.selection.type != "Control") {
+                text = document.selection.createRange().text;
+            }
+            // Split by change of line and remove empty lines
+            var textArray = text.split(/\r?\n/).filter(function(e){return e;});
 
-    var r='<input id="nikos-select" value="' + text + '"/><div id="nikos-button" class="aidoni nikos-button nikos-left"> Copy </div>';
-    //$("body").append(r);
-    document.body.insertAdjacentHTML('beforeend', r);
-    //$('#nikos-select').val(text);
-    document.getElementById("nikos-select").value = text;
+            var reformattedArray = textArray.map(function(text) {
+                return '<outline text="' + text + '" />';
+            });
+            return reformattedArray.join('');
+        }
 
-    let button = document.getElementById('nikos-button');
+        var selectedText = getSelectionText();
+        console.log(selectedText);
 
-    button.addEventListener('click', function(e) {
-      e.preventDefault();
-      document.execCommand('copy', false, document.getElementById('nikos-select').select());
-    });
+        // Tag in format #yymmdd_title
+        var date_tag = '#' + formatDate(new Date()) + '_' + document.title.split(' ')[0].toLowerCase();
+        var url = location.protocol + '//' + location.host + location.pathname;
+        var text = '<opml><body><outline text=\'#ref ' + escapeHtml(document.title) + ' ' + date_tag + '\' _note=\'' + escapeHtml(location.href) + ' \'>' + selectedText + '</outline></body></opml>';
+
+        var r='<input id="nikos-select" value="' + text + '"/><div id="nikos-button" class="aidoni nikos-button nikos-left"> Copy </div>';
+        //$("body").append(r);
+        document.body.insertAdjacentHTML('beforeend', r);
+        //$('#nikos-select').val(text);
+        document.getElementById("nikos-select").value = text;
+
+        let button = document.getElementById('nikos-button');
+
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            copyText();
+        });
+    }
+
+    function copyText() {
+        addElementToCopy()
+        document.execCommand('copy', false, document.getElementById('nikos-select').select());
+    }
+
+    Mousetrap.bind('c c', function() { copyText(); });
 
     function addGlobalStyle(css) {
         var head, style;
