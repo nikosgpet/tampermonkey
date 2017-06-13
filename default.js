@@ -4,7 +4,7 @@
 // @version      0.6
 // @description  try to take over the world!
 // @author       You
-// @match        https://*/*
+// @match        *://*/*
 // @exclude      https://workflowy.com/*
 // @grant        none
 // @run-at       document-end
@@ -15,6 +15,25 @@
     'use strict';
 
     //alert('Button added');
+
+    function formatDate(d) {
+        //increment month by 1 since it is 0 indexed
+        var month = (d.getMonth() + 1).toString();
+        //if month is 1-9 pad right with a 0 for two digits
+        if (month.length === 1) {
+            month = "0" + month;
+        }
+        var day = d.getDate().toString();
+        if (day.length === 1) {
+            day = "0" + day;
+        }
+        //pull the last two digits of the year
+        var year = d.getFullYear().toString().substr(-2);
+
+        //return the string "yymmdd"
+        return year + month + day;
+    }
+
     function escapeHtml(text) {
       var map = {
         '&': '&amp;',
@@ -27,8 +46,10 @@
       return text.replace(/[&<>"']/g, function(m) { return map[m]; });
     }
 
+    // Tag in format #yymmdd_title
+    var date_tag = '#' + formatDate(new Date()) + '_' + document.title.split(' ')[0].toLowerCase();
     var url = location.protocol + '//' + location.host + location.pathname;
-    var text = '<opml><body><outline text=\'#ref ' + escapeHtml(document.title) + '\' _note=\'' + escapeHtml(location.href) + ' \'/></body></opml>';
+    var text = '<opml><body><outline text=\'#ref ' + escapeHtml(document.title) + ' ' + date_tag + '\' _note=\'' + escapeHtml(location.href) + ' \'/></body></opml>';
 
     var r='<input id="nikos-select" value="' + text + '"/><div id="nikos-button" class="aidoni nikos-button nikos-left"> Copy </div>';
     //$("body").append(r);
@@ -52,9 +73,9 @@
         style.innerHTML = css;
         head.appendChild(style);
     }
-    
+
     addGlobalStyle(`
-        .nikos-button {  
+        .nikos-button {
             display: inline-block;
             /*   position: relative; */
             width: 60px;
@@ -78,13 +99,13 @@
         .nikos-left {
             position: fixed;
             bottom: 20px;
-            left: 20px; 
+            left: 20px;
         }
-  
+
         .nikos-right {
             position: fixed;
             bottom: 20px;
-            right: 20px; 
+            right: 20px;
         }
 
         .nikos-button:active, .nikos-button:hover {
