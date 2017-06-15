@@ -10,6 +10,10 @@
 // @run-at       document-end
 // @noframes
 // @require      https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.6.1/mousetrap.min.js
+// @grant        GM_xmlhttpRequest
+// @connect      0.0.0.0
+// @connect      13.59.21.50
+// @connect      www.studesko.com
 // ==/UserScript==
 
 (function() {
@@ -47,6 +51,15 @@
       return text.replace(/[&<>"']/g, function(m) { return map[m]; });
     }
 
+    function getTitle() {
+        var date_tag = '#' + formatDate(new Date()) + '_' + document.title.split(' ')[0].toLowerCase();
+        return '#ref ' + escapeHtml(document.title) + ' ' + date_tag ;
+    }
+
+    function getNote() {
+        return escapeHtml(location.href);
+    }
+
     function addElementToCopy() {
         function getSelectionText() {
             var text = "";
@@ -68,9 +81,8 @@
         console.log(selectedText);
 
         // Tag in format #yymmdd_title
-        var date_tag = '#' + formatDate(new Date()) + '_' + document.title.split(' ')[0].toLowerCase();
         var url = location.protocol + '//' + location.host + location.pathname;
-        var text = '<opml><body><outline text=\'#ref ' + escapeHtml(document.title) + ' ' + date_tag + '\' _note=\'' + escapeHtml(location.href) + ' \'>' + selectedText + '</outline></body></opml>';
+        var text = '<opml><body><outline text="' + getTitle() + '" _note="' + getNote() + '">' + selectedText + '</outline></body></opml>';
 
         var r='<input id="nikos-select" value="' + text + '"/><div id="nikos-button" class="aidoni nikos-button nikos-left"> Copy </div>';
         //$("body").append(r);
@@ -89,6 +101,22 @@
     function copyText() {
         addElementToCopy()
         document.execCommand('copy', false, document.getElementById('nikos-select').select());
+
+//        xhttp.open("POST", "http://13.59.21.50/wfapi/", true);
+        var url = "http://0.0.0.0/wfapi/";
+        var data = "note=" + encodeURIComponent(getNote()) + "&title=" + encodeURIComponent(getTitle());
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: url,
+            data: data,
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            onload: function(response) {
+                console.log(data);
+            }
+        });
+
     }
 
     Mousetrap.bind('c c', function() { copyText(); });
