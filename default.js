@@ -1,12 +1,11 @@
 // ==UserScript==
 // @name         Copy button
 // @namespace    http://tampermonkey.net/
-// @version      0.6
+// @version      0.7
 // @description  try to take over the world!
 // @author       You
 // @match        *://*/*
 // @exclude      https://workflowy.com/*
-// @grant        none
 // @run-at       document-end
 // @noframes
 // @require      https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.6.1/mousetrap.min.js
@@ -60,29 +59,31 @@
         return escapeHtml(location.href);
     }
 
-    function addElementToCopy() {
-        function getSelectionText() {
-            var text = "";
-            if (window.getSelection) {
-                text = window.getSelection().toString();
-            } else if (document.selection && document.selection.type != "Control") {
-                text = document.selection.createRange().text;
-            }
-            // Split by change of line and remove empty lines
-            var textArray = text.split(/\r?\n/).filter(function(e){return e;});
-
-            var reformattedArray = textArray.map(function(text) {
-                return '<outline text="' + text + '" />';
-            });
-            return reformattedArray.join('');
+    function getSelectionText() {
+        var text = "";
+        if (window.getSelection) {
+            text = window.getSelection().toString();
+        } else if (document.selection && document.selection.type != "Control") {
+            text = document.selection.createRange().text;
         }
+        return text;
+    }
 
-        var selectedText = getSelectionText();
-        console.log(selectedText);
+    function getSelectionTextOutlined() {
+        var text = getSelectionText();
+        // Split by change of line and remove empty lines
+        var textArray = text.split(/\r?\n/).filter(function(e){return e;});
 
+        var reformattedArray = textArray.map(function(text) {
+            return '<outline text="' + text + '" />';
+        });
+        return reformattedArray.join('');
+    }
+
+    function addElementToCopy() {
         // Tag in format #yymmdd_title
         var url = location.protocol + '//' + location.host + location.pathname;
-        var text = '<opml><body><outline text="' + getTitle() + '" _note="' + getNote() + '">' + selectedText + '</outline></body></opml>';
+        var text = '<opml><body><outline text="' + getTitle() + '" _note="' + getNote() + '">' + '</outline></body></opml>';
 
         var r='<input id="nikos-select" value="' + text + '"/><div id="nikos-button" class="aidoni nikos-button nikos-left"> Copy </div>';
         //$("body").append(r);
@@ -99,12 +100,16 @@
     }
 
     function copyText() {
-        addElementToCopy()
+        var selectedText = getSelectionText();
+        console.log(selectedText);
+
+        addElementToCopy();
         document.execCommand('copy', false, document.getElementById('nikos-select').select());
 
-//        xhttp.open("POST", "http://13.59.21.50/wfapi/", true);
-        var url = "http://0.0.0.0/wfapi/";
-        var data = "note=" + encodeURIComponent(getNote()) + "&title=" + encodeURIComponent(getTitle());
+        var url = "http://13.59.21.50/wfapi/";
+//        var url = "http://0.0.0.0/wfapi/";
+        var data = "note=" + encodeURIComponent(getNote()) + "&title=" + encodeURIComponent(getTitle()) + "&text=" + encodeURIComponent(selectedText);
+
         GM_xmlhttpRequest({
             method: "POST",
             url: url,
