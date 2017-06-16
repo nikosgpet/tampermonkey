@@ -86,3 +86,11 @@
     margin-top: 8px;
   }
 
+
+/* -----------------  Highlight underligned text  ----------------- */
+
+.contentUnderline {
+    text-decoration: none;
+    background: rgba(255, 230, 0, 0.48);
+    padding: 2px 2px 3px;
+}
