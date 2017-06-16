@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Copy button
 // @namespace    http://tampermonkey.net/
-// @version      0.7
+// @version      0.8
 // @description  try to take over the world!
 // @author       You
 // @match        *://*/*
@@ -51,7 +51,7 @@
     }
 
     function getTitle() {
-        var date_tag = '#' + formatDate(new Date()) + '_' + document.title.split(' ')[0].toLowerCase();
+        var date_tag = '#ref_' + formatDate(new Date()) + '_' + document.title.split(' ')[0].toLowerCase();
         return '#ref ' + escapeHtml(document.title) + ' ' + date_tag ;
     }
 
