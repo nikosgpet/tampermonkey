@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Copy button
 // @namespace    http://tampermonkey.net/
-// @version      0.8
+// @version      0.9
 // @description  try to take over the world!
 // @author       You
 // @match        *://*/*
@@ -50,13 +50,46 @@
       return text.replace(/[&<>"']/g, function(m) { return map[m]; });
     }
 
+    function isAmazon() {
+        return document.location.host.includes("amazon");
+    }
+
     function getTitle() {
-        var date_tag = '#ref_' + formatDate(new Date()) + '_' + document.title.split(' ')[0].toLowerCase();
-        return '#ref ' + escapeHtml(document.title) + ' ' + date_tag ;
+        var title = document.title;
+        var create_date_tag = true;
+        if (isAmazon()) {
+            var author = "";
+            title = document.getElementById("productTitle").innerHTML;
+            try {
+                var links = document.getElementsByClassName("author")[0].getElementsByClassName("a-link-normal");
+                author = links[links.length - 1].innerHTML;
+                title += " - " + author;
+                create_date_tag = false;
+            } catch(err) {
+                console.log("Error: " + err + ".");
+            }
+
+            try {
+                var pages = productDetailsTable.innerText.match("([0-9]*) page")[1];
+                title = "[" + pages + "] " + title;
+            } catch(err) {
+                console.log("Error: " + err + ".");
+            }
+        }
+
+        var date_tag = "";
+        if (create_date_tag) {
+            date_tag = '#ref_' + formatDate(new Date()) + '_' + title.split(' ')[0].toLowerCase();
+        }
+        return '#ref ' + escapeHtml(title) + ' ' + date_tag ;
     }
 
     function getNote() {
-        return escapeHtml(location.href);
+        var url = location.href;
+        if (isAmazon()) {
+            url = location.href.split('ref=')[0];
+        }
+        return escapeHtml(url);
     }
 
     function getSelectionText() {
