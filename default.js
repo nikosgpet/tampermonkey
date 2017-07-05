@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Copy button
 // @namespace    http://tampermonkey.net/
-// @version      0.9
-// @description  try to take over the world!
+// @version      1.0
+// @description  Adds copy button in all pages :D
 // @author       You
 // @match        *://*/*
 // @exclude      https://workflowy.com/*
@@ -113,9 +113,8 @@
         return reformattedArray.join('');
     }
 
-    function addElementToCopy() {
+    function addCopyButton() {
         // Tag in format #yymmdd_title
-        var url = location.protocol + '//' + location.host + location.pathname;
         var text = '<opml><body><outline text="' + getTitle() + '" _note="' + getNote() + '">' + '</outline></body></opml>';
 
         var r='<input id="nikos-select" value="' + text + '"/><div id="nikos-button" class="aidoni nikos-button nikos-left"> Copy </div>';
@@ -133,12 +132,11 @@
     }
 
     function copyText() {
-        var selectedText = getSelectionText();
-        console.log(selectedText);
-
-        addElementToCopy();
         document.execCommand('copy', false, document.getElementById('nikos-select').select());
+    }
 
+    function sendTextToServer() {
+        var selectedText = getSelectionText();
         var url = "http://13.59.21.50/wfapi/";
 //        var url = "http://0.0.0.0/wfapi/";
         var data = "note=" + encodeURIComponent(getNote()) + "&title=" + encodeURIComponent(getTitle()) + "&text=" + encodeURIComponent(selectedText);
@@ -152,12 +150,14 @@
             },
             onload: function(response) {
                 console.log(data);
+                var r="<div class='nikos-success nikos-right'>✅</div>";
+                document.body.insertAdjacentHTML('beforeend', r);
             }
         });
-
     }
 
-    Mousetrap.bind('c c', function() { copyText(); });
+    addCopyButton();
+    Mousetrap.bind('c c', function() { sendTextToServer(); });
 
     function addGlobalStyle(css) {
         var head, style;
@@ -201,6 +201,13 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
+        }
+
+        .nikos-success {
+            z-index: 1000;
+            font-size: 2em;
+            opacity: 0.5;
+            left: 100px;
         }
 
         .nikos-button:active, .nikos-button:hover {
