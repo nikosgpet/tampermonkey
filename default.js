@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Copy button
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  Adds copy button in all pages :D
 // @author       You
 // @match        *://*/*
@@ -115,8 +115,8 @@
 
     function addCopyButton() {
         // Tag in format #yymmdd_title
-        var text = '<opml><body><outline text="' + getTitle() + '" _note="' + getNote() + '">' + '</outline></body></opml>';
-
+        var text = '<opml><body><outline text=\'' + getTitle() + '\' _note=\'' + getNote() + '\'> </outline></body></opml>';
+        console.log(text);
         var r='<input id="nikos-select" value="' + text + '"/><div id="nikos-button" class="aidoni nikos-button nikos-left"> Copy </div>';
         //$("body").append(r);
         document.body.insertAdjacentHTML('beforeend', r);
