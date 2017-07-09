@@ -91,6 +91,7 @@
 
 .contentUnderline {
     text-decoration: none;
-    background: rgba(255, 230, 0, 0.48);
+    background: rgba(255, 243, 128, 0.78);
     padding: 2px 2px 3px;
+    border-radius: 4px;
 }
