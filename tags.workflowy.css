@@ -1,8 +1,8 @@
 /* Add some padding to tag box */
 .contentTag {
   padding: 0px 4px !important;
-/*     background-color: #eeeeee; */
   color: #757575 !important;
+  display: inline-block;
 }
 
 /* Change completed style */
@@ -28,7 +28,8 @@
 .contentTag[title$="#text"], 
 .contentTag[title$="#book"], 
 .contentTag[title$="#cook"], 
-.contentTag[title$="#drive"]  {
+.contentTag[title$="#drive"],
+.contentTag[title*="#i_"]{
   color: transparent !important;  /* Makes all text transparent, especially the dash # */
   opacity: .8;                    /* Makes it a little transparent */
 }
@@ -46,6 +47,7 @@
 .contentTag[title$="#book"] > .contentTagText, 
 .contentTag[title$="#cook"] > .contentTagText, 
 .contentTag[title$="#drive"] > .contentTagText {
+  display: inline-block;
   color: #fff;                    /* Makes text white (not the dash #) */
   margin: 0px 0px 0px -0.5em;     /* Moves text to the left, covering the dash # */
 }
@@ -123,6 +125,7 @@
   background-color: #42a5f5;
 }
 /* Blue */
+.contentTag[title*="#i_"],
 .contentTag[title$="#ex"], .contentTag[title*="metaphor"], .contentTag[title*="pro"], .contentTag[title*="plugin"], .contentTag[title*="aim"], .contentTag[title*="cook"], .contentTag[title*="drive"] {
   background-color: #0080C8;
 }
@@ -144,7 +147,12 @@
   opacity: .2;
 }
 
-
+/* Hide first letter of the following tags */
+.contentTag[title*="#i_"] > .contentTagText::first-letter {
+  visibility: hidden;
+  font-size: 0;
+  vertical-align: middle;
+}
 
 /* Nice orange #FF6600 */
 /* Remove underline from tags */
