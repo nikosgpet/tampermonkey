@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Copy button
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.2
 // @description  Adds copy button in all pages :D
 // @author       You
 // @match        *://*/*
@@ -54,6 +54,10 @@
         return document.location.host.includes("amazon");
     }
 
+    function isGoogleDriveImage() {
+        return document.location.href.includes("drive.google.com/file/d/");
+    }
+
     function getTitle() {
         var title = document.title;
         var create_date_tag = true;
@@ -75,6 +79,8 @@
             } catch(err) {
                 console.log("Error: " + err + ".");
             }
+        } else if (isGoogleDriveImage()) {
+            return '![](https://drive.google.com/uc?id=' + document.location.href.match("d/(.*)/view")[1] + ')';
         }
 
         var date_tag = "";
