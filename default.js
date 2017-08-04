@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Copy button
 // @namespace    http://tampermonkey.net/
-// @version      1.2
+// @version      1.3
 // @description  Adds copy button in all pages :D
 // @author       You
 // @match        *://*/*
@@ -58,6 +58,10 @@
         return document.location.href.includes("drive.google.com/file/d/");
     }
 
+    function isGoogleSearch() {
+        return /google\..*\/search/.exec(document.location.href);
+    }
+
     function getTitle() {
         var title = document.title;
         var create_date_tag = true;
@@ -81,13 +85,16 @@
             }
         } else if (isGoogleDriveImage()) {
             return '![](https://drive.google.com/uc?id=' + document.location.href.match("d/(.*)/view")[1] + ')';
+        } else if (isGoogleSearch()) {
+            var search = document.getElementById("lst-ib").value;
+            return '#search ' + search;
         }
 
         var date_tag = "";
         if (create_date_tag) {
             date_tag = '#ref_' + formatDate(new Date()) + '_' + title.split(' ')[0].toLowerCase();
         }
-        return '#ref ' + escapeHtml(title) + ' ' + date_tag ;
+        return '#ref ' + escapeHtml(title) + ' ' + date_tag + ' #read_ref' ;
     }
 
     function getNote() {
@@ -142,6 +149,8 @@
     }
 
     function sendTextToServer() {
+        var r="<div class='nikos-success nikos-right'>*️⃣</div>";
+        document.body.insertAdjacentHTML('beforeend', r);
         var selectedText = getSelectionText();
         var url = "http://13.59.21.50/wfapi/";
 //        var url = "http://0.0.0.0/wfapi/";
