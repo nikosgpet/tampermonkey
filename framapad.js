@@ -17,11 +17,11 @@
             function addCssFile(file) {
                 console.log($('body')[0]);
                 console.log($('[name="ace_outer"]')[0]);
-                var $head = $('iframe[name="ace_outer"]').contents().find('iframe[name="ace_inner"]');
+                var $head = $('iframe[name="ace_outer"]').contents().find('iframe[name="ace_inner"]').contents().find('head');
                 console.log($head);
                 $head.append($("<link/>", { rel: "stylesheet", href: file, type: "text/css" }));
             }
-            addCssFile('https://rawgit.com/nikosgpet/tampermonkey/master/tags.workflowy.css');
+            addCssFile('https://raw.githack.com/nikosgpet/tampermonkey/master/layout.framapad.css');
         };
         window.setTimeout( wait_, 2000 ); // 2 seconds
     });
