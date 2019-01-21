@@ -12,7 +12,7 @@
 }
 
 html, #outerdocbody {
-  background-color: #EEEEEE;
+  background-color: #EEEEEE !important;
 }
 
 #toc, .tocItem {
