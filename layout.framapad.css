@@ -18,3 +18,16 @@ html, #outerdocbody {
 #toc, .tocItem {
     width: 300px;
 }
+
+#editbar {
+    background: #fff;
+}
+
+.menu_left {
+    margin-left: 30px;
+}
+
+.menu_left a {
+    background: white !important;
+    border: 1px solid white;
+}
