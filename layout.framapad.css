@@ -3,10 +3,18 @@
 }
 
 .pageBreakComputed {
-    background-color: white;
+    background-color: #EEEEEE;
 }
 
 #innerdocbody {
   box-shadow: none;
   margin-top: 30px;
+}
+
+html, #outerdocbody {
+  background-color: #EEEEEE;
+}
+
+#toc, .tocItem {
+    width: 300px;
 }
