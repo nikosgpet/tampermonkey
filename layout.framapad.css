@@ -21,6 +21,7 @@ html, #outerdocbody {
 
 .tocItem {
     width: 280px;
+    overflow: visible;
 }
 
 #editbar {
