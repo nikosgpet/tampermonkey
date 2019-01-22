@@ -13,15 +13,16 @@
 
     $( window ).load(function() {
         function wait_(){
-            console.log('nikos2');
-            function addCssFile(file) {
-                console.log($('body')[0]);
-                console.log($('[name="ace_outer"]')[0]);
-                var $head = $('iframe[name="ace_outer"]').contents().find('iframe[name="ace_inner"]').contents().find('head');
-                console.log($head);
-                $head.append($("<link/>", { rel: "stylesheet", href: file, type: "text/css" }));
+            function addCssFile(head, file) {
+                head.append($("<link/>", { rel: "stylesheet", href: file, type: "text/css" }));
             }
-            addCssFile('https://raw.githack.com/nikosgpet/tampermonkey/master/layout.framapad.css');
+            var $head = $('iframe[name="ace_outer"]').contents().find('iframe[name="ace_inner"]').contents().find('head');
+            addCssFile($head, 'https://raw.githack.com/nikosgpet/tampermonkey/master/layout.framapad.css');
+            var $head = $('iframe[name="ace_outer"]').contents().find('head');
+            addCssFile($head, 'https://raw.githack.com/nikosgpet/tampermonkey/master/layout.framapad.css');
+            var $head = $('head');
+            addCssFile($head, 'https://raw.githack.com/nikosgpet/tampermonkey/master/layout.framapad.css');
+
         };
         window.setTimeout( wait_, 2000 ); // 2 seconds
     });
