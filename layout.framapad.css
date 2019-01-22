@@ -15,8 +15,12 @@ html, #outerdocbody {
   background-color: #EEEEEE !important;
 }
 
-#toc, .tocItem {
-    width: 300px;
+#toc {
+    width: 300px !important;
+}
+
+.tocItem {
+    width: 280px;
 }
 
 #editbar {
