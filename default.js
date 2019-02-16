@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Copy button
 // @namespace    http://tampermonkey.net/
-// @version      1.3
+// @version      1.4
 // @description  Adds copy button in all pages :D
 // @author       You
 // @match        *://*/*
@@ -19,6 +19,19 @@
     'use strict';
 
     //alert('Button added');
+
+    // Throtlle function as shown here https://codeburst.io/throttling-and-debouncing-in-javascript-646d076d0a44
+    function throttled(delay, fn) {
+        let lastCall = 0;
+        return function (...args) {
+            const now = (new Date).getTime();
+            if (now - lastCall < delay) {
+                return;
+            }
+            lastCall = now;
+            return fn(...args);
+        }
+    }
 
     function formatDate(d) {
         //increment month by 1 since it is 0 indexed
@@ -130,7 +143,7 @@
         // Tag in format #yymmdd_title
         var text = '<opml><body><outline text=\'' + getTitle() + '\' _note=\'' + getNote() + '\'> </outline></body></opml>';
         console.log(text);
-        var r='<input id="nk-select" value="' + text + '"/><div id="nk-btn-container"><div id="nk-btn" class="nk-btn nk-btn__left"> Copy </div></div>';
+        var r='<input id="nk-select" value="' + text + '"/><div id="nk-btn" class="nk-btn nk-btn__left"> Copy </div>';
         //$("body").append(r);
         document.body.insertAdjacentHTML('beforeend', r);
         //$('#nk-select').val(text);
@@ -142,6 +155,28 @@
             e.preventDefault();
             copyText();
         });
+
+        document.body.addEventListener("mousemove", throttled(200, nkOnMouseMove), false);
+    }
+
+    function calculateDistance(mouseX, mouseY) {
+        //console.log(mouseX, "/", window.innerWidth, " | ", mouseY, "/", window.innerHeight);
+        let distance;
+        distance = Math.floor(Math.sqrt(Math.pow(mouseX - 75, 2) + Math.pow(mouseY - window.innerHeight, 2)));
+
+        let element = document.getElementById("nk-btn");
+
+        if (distance < 250) {
+            element.classList.add("show");
+        } else {
+            element.classList.remove("show");
+        }
+    }
+
+    function nkOnMouseMove(e) {
+        let mX = e.clientX;
+        let mY = e.clientY;
+        let distance = calculateDistance(mX, mY);
     }
 
     function copyText() {
@@ -195,13 +230,17 @@
             font-size: 14px;
             background-color: #eee;
             color: #646464;
-            transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.1s ease;
             transition-delay: 0.2s;
             box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
             text-align: center;
             cursor: default;
-            opacity: 0.5;
+            opacity: 0;
             z-index: 1000;
+        }
+
+        .nk-btn.show {
+            opacity: 1;
         }
 
         .nk-btn__left {
@@ -225,13 +264,13 @@
             left: 100px;
         }
 
-        .nk-btn:active, .nk-btn:hover {
-            opacity: 1;
+        .nk-btn:hover {
+            cursor: pointer;
         }
 
         .nk-btn:active {
             box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
-            transition-delay: 0s;
+            //transition-delay: 0s;
         }
 
         #nk-select {
