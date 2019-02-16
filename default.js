@@ -130,13 +130,13 @@
         // Tag in format #yymmdd_title
         var text = '<opml><body><outline text=\'' + getTitle() + '\' _note=\'' + getNote() + '\'> </outline></body></opml>';
         console.log(text);
-        var r='<input id="nikos-select" value="' + text + '"/><div id="nikos-button" class="aidoni nikos-button nikos-left"> Copy </div>';
+        var r='<input id="nk-select" value="' + text + '"/><div id="nk-btn-container"><div id="nk-btn" class="nk-btn nk-btn__left"> Copy </div></div>';
         //$("body").append(r);
         document.body.insertAdjacentHTML('beforeend', r);
-        //$('#nikos-select').val(text);
-        document.getElementById("nikos-select").value = text;
+        //$('#nk-select').val(text);
+        document.getElementById("nk-select").value = text;
 
-        let button = document.getElementById('nikos-button');
+        let button = document.getElementById('nk-btn');
 
         button.addEventListener('click', function(e) {
             e.preventDefault();
@@ -145,11 +145,11 @@
     }
 
     function copyText() {
-        document.execCommand('copy', false, document.getElementById('nikos-select').select());
+        document.execCommand('copy', false, document.getElementById('nk-select').select());
     }
 
     function sendTextToServer() {
-        var r="<div class='nikos-success nikos-right'>*️⃣</div>";
+        var r="<div class='nk-btn__success nk-btn__right'>*️⃣</div>";
         document.body.insertAdjacentHTML('beforeend', r);
         var selectedText = getSelectionText();
         var url = "http://13.59.21.50/wfapi/";
@@ -165,7 +165,7 @@
             },
             onload: function(response) {
                 console.log(data);
-                var r="<div class='nikos-success nikos-right'>✅</div>";
+                var r="<div class='nk-btn__success nk-btn__right'>✅</div>";
                 document.body.insertAdjacentHTML('beforeend', r);
             }
         });
@@ -185,59 +185,58 @@
     }
 
     addGlobalStyle(`
-        .nikos-button {
+        .nk-btn {
+            font-family: Arial;
             display: inline-block;
-            /*   position: relative; */
-            width: 60px;
+            padding: 0 12px;
             height: 32px;
             line-height: 32px;
             border-radius: 2px;
-            font-size: 0.9em;
+            font-size: 14px;
             background-color: #eee;
             color: #646464;
             transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             transition-delay: 0.2s;
             box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-
             text-align: center;
-
             cursor: default;
             opacity: 0.5;
             z-index: 1000;
         }
 
-        .nikos-left {
+        .nk-btn__left {
             position: fixed;
             bottom: 20px;
-            left: 20px;
+            left: 40px;
+            z-index: 1000000;
         }
 
-        .nikos-right {
+        .nk-btn__right {
             position: fixed;
             bottom: 20px;
             right: 20px;
+            z-index: 1000000;
         }
 
-        .nikos-success {
+        .nk-btn__success {
             z-index: 1000;
             font-size: 2em;
             opacity: 0.5;
             left: 100px;
         }
 
-        .nikos-button:active, .nikos-button:hover {
+        .nk-btn:active, .nk-btn:hover {
             opacity: 1;
         }
 
-        .nikos-button:active {
+        .nk-btn:active {
             box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
             transition-delay: 0s;
         }
 
-        #nikos-select {
+        #nk-select {
             position: fixed;
             left: -1000px;
         }
     `);
 })();
-
