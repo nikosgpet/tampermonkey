@@ -1,0 +1,102 @@
+.book-project {
+  counter-reset: h1 h2 h3 h4 h5;
+}
+
+.book-project .children .bullet svg {
+  color: rgb(220, 224, 226);
+}
+
+.book-project .children .bullet {
+  opacity: 0.3;
+}
+
+.book-project .bullet:hover {
+  opacity: 1;
+}
+
+.project .bullet {
+    transition: opacity 0.5s ease-in-out; 
+}
+
+div {
+    transition: all 1s ease-in-out; 
+}
+
+span[title$="#book"],
+span[title$="#h1"],
+span[title$="#h2"],
+span[title$="#h3"],
+span[title$="#h4"],
+span[title$="#h5"],
+span[title$="#h1u"],
+span[title$="#h2u"],
+span[title$="#h3u"],
+span[title$="#h4u"],
+span[title$="#h5u"]{
+  color: rgba(134, 140, 144, 0.2) !important;
+}
+
+span[title*="#i_"] {
+  color: rgba(102, 0, 153, 1) !important;
+}
+
+
+.h1-project > .name .content, 
+.h1u-project > .name .content {
+  font-weight: 700;
+}
+
+.h2-project > .name .content, 
+.h2u-project > .name .content {
+  font-weight: 600;
+}
+
+.h3-project > .name .content, 
+.h3u-project > .name .content {
+  font-weight: 500;
+}
+
+.h4-project > .name .content, 
+.h4u-project > .name .content {
+  font-style: oblique;
+}
+
+.h1-project {
+  counter-increment: h1;
+  counter-reset: h2;
+}
+
+.h1-project > .name .content::before {
+  content: counter(h1) ". ";
+}
+
+.h2-project {
+  counter-increment: h2;
+  counter-reset: h3;
+}
+
+.h2-project > .name .content::before {
+  content: counter(h1) "." counter(h2) ". ";
+}
+
+.h3-project {
+  counter-increment: h3;
+  counter-reset: h4;
+}
+
+.h3-project > .name .content::before {
+  content: counter(h1) "." counter(h2) "." counter(h3) ". ";
+}
+
+.h4-project > .name .content::before {
+  counter-increment: h4;
+  content: counter(h1) ".";
+}
+
+.h4-project > .name .content::before {
+  content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) ". ";
+}
+
+.contentTagText {
+  text-decoration: none !important;
+}
