@@ -1,11 +1,13 @@
 // ==UserScript==
 // @name         Copy button
 // @namespace    http://tampermonkey.net/
-// @version      1.4
+// @version      1.5
 // @description  Adds copy button in all pages :D
 // @author       You
 // @match        *://*/*
 // @exclude      https://workflowy.com/*
+// @exclude      https://music.youtube.com/*
+// @exclude      https://www.inoreader.com/*
 // @run-at       document-end
 // @noframes
 // @require      https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.6.1/mousetrap.min.js
@@ -107,7 +109,8 @@
         if (create_date_tag) {
             date_tag = '#ref_' + formatDate(new Date()) + '_' + title.split(' ')[0].toLowerCase();
         }
-        return '#ref ' + escapeHtml(title) + ' ' + date_tag + ' #read_ref' ;
+        //return '#ref ' + escapeHtml(title) + ' ' + date_tag + ' #read_ref' ;
+        return '#ref ' + escapeHtml(title) + ' ' + escapeHtml(date_tag) ;
     }
 
     function getNote() {
@@ -115,7 +118,7 @@
         if (isAmazon()) {
             url = location.href.split('ref=')[0];
         }
-        return escapeHtml(url);
+        return "&lt;a href=&quot;" + escapeHtml(url) + "&quot;&gt;" + escapeHtml(url) + "&lt;/a&gt;";
     }
 
     function getSelectionText() {
