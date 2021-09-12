@@ -78,139 +78,142 @@
     }
 
     function getTitle() {
-        var title = document.title;
-        var create_date_tag = true;
+        let title = document.title;
         if (isAmazon()) {
-            var author = "";
+            let author = "";
             title = document.getElementById("productTitle").innerHTML;
             try {
-                var links = document.getElementsByClassName("author")[0].getElementsByClassName("a-link-normal");
+                const links = document.getElementsByClassName("author")[0].getElementsByClassName("a-link-normal");
                 author = links[links.length - 1].innerHTML;
                 title += " - " + author;
                 create_date_tag = false;
             } catch(err) {
-                console.log("Error: " + err + ".");
+                console.log(`Error: ${err}.`);
             }
 
             try {
-                var pages = productDetailsTable.innerText.match("([0-9]*) page")[1];
+                const pages = productDetailsTable.innerText.match("([0-9]*) page")[1];
                 title = "[" + pages + "] " + title;
             } catch(err) {
-                console.log("Error: " + err + ".");
+                console.log(`Error: ${err}.`);
             }
         } else if (isGoogleDriveImage()) {
             return '![](https://drive.google.com/uc?id=' + document.location.href.match("d/(.*)/view")[1] + ')';
         } else if (isGoogleSearch()) {
-            var search = document.getElementById("lst-ib").value;
+            const search = document.getElementById("lst-ib").value;
             return '#search ' + search;
         }
+        return title;
+    }
 
-        var date_tag = "";
-        if (create_date_tag) {
-            date_tag = '#ref_' + formatDate(new Date()) + '_' + title.split(' ')[0].toLowerCase();
-        }
-        //return '#ref ' + escapeHtml(title) + ' ' + date_tag + ' #read_ref' ;
-        return '#ref ' + escapeHtml(title) + ' ' + escapeHtml(date_tag) ;
+    function getText(create_ref_tag = false, create_date_tag = false) {
+        const title = getTitle();
+        const date_tag = (create_date_tag) ? ' #ref_' + formatDate(new Date()) + '_' + title.split(/[^a-zA-Z0-9]+/)[0].toLowerCase() : "";
+        const ref_tag = (create_ref_tag) ? '#ref ' : "";
+
+        return escapeHtml(ref_tag + title + date_tag);
+    }
+
+    function getUrl() {
+        if (isAmazon())
+            return location.href.split('ref=')[0];
+        return location.href.split('?')[0];
     }
 
     function getNote() {
-        var url = location.href;
-        if (isAmazon()) {
-            url = location.href.split('ref=')[0];
-        }
-        return "&lt;a href=&quot;" + escapeHtml(url) + "&quot;&gt;" + escapeHtml(url) + "&lt;/a&gt;";
+        const url = getUrl();
+        return escapeHtml(`<a href="${url}">${url}</a>`);
     }
 
-    function getSelectionText() {
-        var text = "";
-        if (window.getSelection) {
-            text = window.getSelection().toString();
-        } else if (document.selection && document.selection.type != "Control") {
-            text = document.selection.createRange().text;
-        }
-        return text;
+    function copyText() {
+        const text = `<opml><body><outline text='${getText()}' _note='${getNote()}'> </outline></body></opml>`;
+        navigator.clipboard.writeText(text)
     }
 
-    function getSelectionTextOutlined() {
-        var text = getSelectionText();
-        // Split by change of line and remove empty lines
-        var textArray = text.split(/\r?\n/).filter(function(e){return e;});
-
-        var reformattedArray = textArray.map(function(text) {
-            return '<outline text="' + text + '" />';
-        });
-        return reformattedArray.join('');
+    function copyTextMd() {
+        const text = `[${getTitle()}](${getUrl()})`;
+        navigator.clipboard.writeText(text)
     }
 
     function addCopyButton() {
         // Tag in format #yymmdd_title
-        var text = '<opml><body><outline text=\'' + getTitle() + '\' _note=\'' + getNote() + '\'> </outline></body></opml>';
-        console.log(text);
-        var r='<input id="nk-select" value="' + text + '"/><div id="nk-btn" class="nk-btn nk-btn__left"> Copy </div>';
-        //$("body").append(r);
+        const r=`
+        <div id="nk-btn-area" class="nk-btn-area nk-btn__left">
+            <div id="nk-btn" class="nk-btn"> W </div>
+            <div id="nk-btn-md" class="nk-btn"> md </div>
+        </div>
+        `;
+
         document.body.insertAdjacentHTML('beforeend', r);
-        //$('#nk-select').val(text);
-        document.getElementById("nk-select").value = text;
 
-        let button = document.getElementById('nk-btn');
-
-        button.addEventListener('click', function(e) {
+        document.getElementById('nk-btn').addEventListener('click', function(e) {
             e.preventDefault();
             copyText();
+        });
+
+        document.getElementById('nk-btn-md').addEventListener('click', function(e) {
+            e.preventDefault();
+            copyTextMd();
         });
 
         document.body.addEventListener("mousemove", throttled(200, nkOnMouseMove), false);
     }
 
-    function calculateDistance(mouseX, mouseY) {
-        //console.log(mouseX, "/", window.innerWidth, " | ", mouseY, "/", window.innerHeight);
-        let distance;
-        distance = Math.floor(Math.sqrt(Math.pow(mouseX - 75, 2) + Math.pow(mouseY - window.innerHeight, 2)));
-
-        let element = document.getElementById("nk-btn");
-
-        if (distance < 250) {
-            element.classList.add("show");
-        } else {
-            element.classList.remove("show");
-        }
-    }
-
     function nkOnMouseMove(e) {
-        let mX = e.clientX;
-        let mY = e.clientY;
-        let distance = calculateDistance(mX, mY);
-    }
-
-    function copyText() {
-        document.execCommand('copy', false, document.getElementById('nk-select').select());
-    }
-
-    function sendTextToServer() {
-        var r="<div class='nk-btn__success nk-btn__right'>*️⃣</div>";
-        document.body.insertAdjacentHTML('beforeend', r);
-        var selectedText = getSelectionText();
-        var url = "http://13.59.21.50/wfapi/";
-//        var url = "http://0.0.0.0/wfapi/";
-        var data = "note=" + encodeURIComponent(getNote()) + "&title=" + encodeURIComponent(getTitle()) + "&text=" + encodeURIComponent(selectedText);
-
-        GM_xmlhttpRequest({
-            method: "POST",
-            url: url,
-            data: data,
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            onload: function(response) {
-                console.log(data);
-                var r="<div class='nk-btn__success nk-btn__right'>✅</div>";
-                document.body.insertAdjacentHTML('beforeend', r);
-            }
-        });
+        const distance = Math.floor(Math.sqrt(Math.pow(e.clientX - 75, 2) + Math.pow(e.clientY - window.innerHeight, 2)));
+        (distance < 250) ? 
+            document.getElementById("nk-btn-area").classList.add("show") : 
+            document.getElementById("nk-btn-area").classList.remove("show"); 
     }
 
     addCopyButton();
-    Mousetrap.bind('c c', function() { sendTextToServer(); });
+
+
+    // function getSelectionText() {
+    //     var text = "";
+    //     if (window.getSelection) {
+    //         text = window.getSelection().toString();
+    //     } else if (document.selection && document.selection.type != "Control") {
+    //         text = document.selection.createRange().text;
+    //     }
+    //     return text;
+    // }
+
+    // function getSelectionTextOutlined() {
+    //     var text = getSelectionText();
+    //     // Split by change of line and remove empty lines
+    //     var textArray = text.split(/\r?\n/).filter(function(e){return e;});
+
+    //     var reformattedArray = textArray.map(function(text) {
+    //         return '<outline text="' + text + '" />';
+    //     });
+    //     return reformattedArray.join('');
+    // }
+
+    // function sendTextToServer() {
+    //     var r="<div class='nk-btn__success nk-btn__right'>*️⃣</div>";
+    //     document.body.insertAdjacentHTML('beforeend', r);
+    //     var selectedText = getSelectionText();
+    //     var url = "http://13.59.21.50/wfapi/";
+    //     // var url = "http://0.0.0.0/wfapi/";
+    //     var data = "note=" + encodeURIComponent(getNote()) + "&title=" + encodeURIComponent(getText()) + "&text=" + encodeURIComponent(selectedText);
+
+    //     GM_xmlhttpRequest({
+    //         method: "POST",
+    //         url: url,
+    //         data: data,
+    //         headers: {
+    //             "Content-Type": "application/x-www-form-urlencoded"
+    //         },
+    //         onload: function(response) {
+    //             console.log(data);
+    //             var r="<div class='nk-btn__success nk-btn__right'>✅</div>";
+    //             document.body.insertAdjacentHTML('beforeend', r);
+    //         }
+    //     });
+    // }
+
+    // Mousetrap.bind('c c', function() { sendTextToServer(); });
 
     function addGlobalStyle(css) {
         var head, style;
@@ -223,13 +226,19 @@
     }
 
     addGlobalStyle(`
+        :root {
+            --nk-btn-bottom: 20px;
+            --nk-btn-side: 40px;
+        }
+
         .nk-btn {
+            pointer-events: all; 
             font-family: Arial;
             display: inline-block;
             padding: 0 12px;
             height: 32px;
             line-height: 32px;
-            border-radius: 2px;
+            border-radius: 40px;
             font-size: 14px;
             background-color: #eee;
             color: #646464;
@@ -239,24 +248,24 @@
             text-align: center;
             cursor: default;
             opacity: 0;
-            z-index: 1000;
+            z-index: 1000000;
         }
 
-        .nk-btn.show {
+        .nk-btn-area.show .nk-btn {
             opacity: 1;
         }
 
         .nk-btn__left {
             position: fixed;
-            bottom: 20px;
-            left: 40px;
+            bottom: var(--nk-btn-bottom);
+            left: var(--nk-btn-side);
             z-index: 1000000;
         }
 
         .nk-btn__right {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: var(--nk-btn-bottom);
+            right: var(--nk-btn-side);
             z-index: 1000000;
         }
 
@@ -274,11 +283,6 @@
         .nk-btn:active {
             box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
             //transition-delay: 0s;
-        }
-
-        #nk-select {
-            position: fixed;
-            left: -1000px;
         }
     `);
 })();
