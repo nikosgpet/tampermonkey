@@ -1,0 +1,44 @@
+{
+  "name": "sooniter-svelte-template",
+  "version": "0.0.0",
+  "type": "module",
+  "packageManager": "pnpm@7.5.0",
+  "description": "自用的库模版",
+  "author": {
+    "name": "SoonIter",
+    "email": "1730214056@qq.com"
+  },
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "[name]"
+  ],
+  "repository": "https://github.com/SoonIter/[name]",
+  "bugs": {
+    "url": "https://github.com/SoonIter/[name]/issues"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "b": "npx onchange 'src/**/*.svelte' -- npm run build",
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^1.0.0-next.30",
+    "@tsconfig/svelte": "^3.0.0",
+    "@unocss/preset-attributify": "^0.44.2",
+    "@unocss/preset-uno": "^0.44.2",
+    "autoprefixer": "^10.4.7",
+    "postcss": "^8.4.14",
+    "simple-git-hooks": "^2.8.0",
+    "svelte": "^3.48.0",
+    "svelte-check": "^2.8.0",
+    "svelte-preprocess": "^4.9.8",
+    "tslib": "^2.3.1",
+    "typescript": "^4.5.4",
+    "unocss": "^0.44.2",
+    "unplugin-auto-import": "^0.9.3",
+    "vite": "^3.0.0"
+  }
+}
